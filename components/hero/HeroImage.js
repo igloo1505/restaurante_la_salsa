@@ -10,8 +10,6 @@ const mapStateToProps = (state, props) => ({
 	props: props,
 });
 
-// export default connect(mapStateToProps)(component)
-
 const HeroWave = connect(mapStateToProps)(
 	({ excessScroll, entered, justExcess }) => {
 		const [waveTransform, setWaveTransform] = useState({
@@ -24,19 +22,6 @@ const HeroWave = connect(mapStateToProps)(
 		const getWaveEmHeight = (w) => {
 			return w ? (320 * w) / 1440 : 0;
 		};
-		// const handleWaveTransform = () => {
-		// setWaveTransform({
-		// 	...waveTransform,
-		// 	translateX: `translateX(-${entered ? justExcess : 0}px)`,
-		// 	translateY: `translateY(-${
-		// 		getWaveEmHeight(window.innerHeight) - 10
-		// 	}px)`,
-		// 	override: false,
-		// });
-		// };
-		// useEffect(() => {
-		// handleWaveTransform();
-		// }, [waveHeight]);
 
 		useEffect(() => {
 			if (typeof window === "undefined") {
@@ -48,6 +33,8 @@ const HeroWave = connect(mapStateToProps)(
 		}, [excessScroll]);
 
 		const handleTransform = (_entered, override) => {
+			let _transition =
+				"transform 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95), opacity 1s ease-in-out";
 			if (typeof window === "undefined") {
 				return;
 			}
@@ -55,23 +42,36 @@ const HeroWave = connect(mapStateToProps)(
 
 			if (em) {
 				console.log("setting em...", em.style.transform);
+
+				// if (Number(em.style.opacity) === 0) {
+				// 	console.log("opacity", em.style.opacity);
+				// 	em.style.transition = _transition;
+				// 	em.style.opacity = 1;
+				// 	em.style.transition = "unset";
+				// 	return setTimeout(() => {
+				// 		em.style.transform = `rotateZ(90deg) translateX(-${
+				// 			_entered ? justExcess : 0
+				// 		}px) translateY(-${getWaveEmHeight(window.innerHeight) - 10}px)`;
+				// 		setTimeout(() => {
+				// 			em.style.transition = _transition;
+				// 		}, 650);
+				// 	}, 650);
+				// }
 				if (override) {
 					em.style.transition = "unset";
 				}
 				em.style.transform = `rotateZ(90deg) translateX(-${
 					_entered ? justExcess : 0
 				}px) translateY(-${getWaveEmHeight(window.innerHeight) - 10}px)`;
-				console.log(
-					`rotateZ(90deg) translateX(-${
-						_entered ? justExcess : 0
-					}px)} translateY(-${getWaveEmHeight(window.innerHeight) - 10}px)`
-				);
 				setTimeout(() => {
-					em.style.transition =
-						"all 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95)";
+					em.style.transition = _transition;
+					if (Number(em.style.opacity) === 0) {
+						em.style.opacity = 1;
+					}
 				}, 650);
 			}
 		};
+
 		useEffect(() => {
 			handleTransform(entered);
 			window.addEventListener("resize", () => {
@@ -81,10 +81,12 @@ const HeroWave = connect(mapStateToProps)(
 
 		return (
 			<div
-				className="w-screen top-0 left-0"
+				className="w-screen top-0 left-0 will-change-transform"
 				style={{
 					width: `${waveHeight}px`,
+					transform: "rotateZ(90deg)",
 					transformOrigin: "top left",
+					opacity: 0,
 				}}
 				id="hero-wave-background-container"
 			>

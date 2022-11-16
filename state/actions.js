@@ -22,11 +22,16 @@ export const setToastOpen = (toastConfig) => {
 	);
 };
 
-
-
 export const setViewport = (dims) => {
 	store.dispatch({
 		type: Types.SET_VIEWPORT,
-		payload: dims
-	})
-}
+		payload: dims,
+	});
+};
+
+export const toggleLanguage = (_lang) => {
+	store.dispatch({
+		type: Types.TOGGLE_LANGUAGE,
+		payload: _lang,
+	});
+};

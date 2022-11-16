@@ -38,6 +38,16 @@ const onlyReducer = createReducer(initialState, (builder) => {
 			},
 		};
 	});
+	builder.addCase(Types.TOGGLE_LANGUAGE, (state, action) => {
+		return {
+			...state,
+			language: action.payload
+				? action.payload
+				: state.language === "English"
+				? "Spanish"
+				: "English",
+		};
+	});
 });
 
 export default onlyReducer;

@@ -8,8 +8,8 @@ const initialState = {
 			message: "",
 			type: null,
 		},
+		language: "English",
 	},
 };
 
-
-export default initialState
+export default initialState;
