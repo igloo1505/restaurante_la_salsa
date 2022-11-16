@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import HeroImage from "../components/hero/HeroImage";
-import HeroLeft from "../components/hero/HeroLeft";
-
+import HeroContainer from "../components/hero/HeroContainer";
 const Index = () => {
 	return (
-		<div className="w-full h-screen relative">
-			<HeroLeft />
-			<HeroImage />
+		<div className="w-full min-h-screen relative">
+			<HeroContainer />
 		</div>
 	);
 };

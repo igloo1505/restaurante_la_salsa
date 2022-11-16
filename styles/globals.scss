@@ -5,3 +5,11 @@
 body {
 	overflow-x: hidden;
 }
+
+#hero-background-image {
+	transition: transform 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+// #hero-wave-background-container {
+// 	transition: transform 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+// }
