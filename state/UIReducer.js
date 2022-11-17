@@ -1,7 +1,7 @@
 import * as Types from "./Types";
 import { createReducer } from "@reduxjs/toolkit";
 import initState from "./initialState";
-
+import toastConfig, { toastTypes } from "../classes/toastConfig";
 const initialState = initState.UI;
 
 const onlyReducer = createReducer(initialState, (builder) => {
@@ -20,6 +20,39 @@ const onlyReducer = createReducer(initialState, (builder) => {
 			toast: {
 				...action.payload,
 			},
+		};
+	});
+	builder.addCase(Types.AUTH_USER_FAIL, (state, action) => {
+		let tConfig = new toastConfig(
+			true,
+			"Something went wrong with that login attempt.",
+			toastTypes.error
+		);
+		return {
+			...state,
+			toast: tConfig,
+		};
+	});
+	builder.addCase(Types.REGISTER_USER_FAIL, (state, action) => {
+		let tConfig = new toastConfig(
+			true,
+			"Something went wrong while creating that account.",
+			toastTypes.error
+		);
+		return {
+			...state,
+			toast: tConfig,
+		};
+	});
+	builder.addCase(Types.REGISTER_USER_SUCCESS, (state, action) => {
+		let tConfig = new toastConfig(
+			true,
+			`Success! ${action.payload.name} was registered`,
+			toastTypes.success
+		);
+		return {
+			...state,
+			toast: tConfig,
 		};
 	});
 	builder.addCase(Types.RESET_TOAST, (state, action) => {

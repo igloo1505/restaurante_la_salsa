@@ -1,5 +1,8 @@
 import store from "./store";
 import * as Types from "./Types";
+import axios from "axios";
+
+const _config = {"Content-Type": "application/json"}
 
 export const toggleDrawer = () => {
 	store.dispatch({
@@ -35,3 +38,15 @@ export const toggleLanguage = (_lang) => {
 		payload: _lang,
 	});
 };
+
+export const updateSpecial = async (specialData) => {
+	const res = await axios.post("/api/updateSpecial", specialData, _config);
+	console.log("res from updateSpecial", res);
+};
+
+export const authenticateUser = async (userData) => {
+    const res = await axios.get("/api/authUser", userData, _config);
+    console.log("Res from authenticateUser", res)
+}
+
+

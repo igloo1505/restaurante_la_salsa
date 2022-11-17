@@ -3,6 +3,7 @@ import "the-new-css-reset/css/reset.css";
 import "../styles/globals.scss";
 import { Provider } from "react-redux";
 import store from "../state/store";
+import "animate.css";
 // import Script from "next/script";
 // import ReactGA from "react-ga4";
 // import ttiPolyfill from "tti-polyfill";

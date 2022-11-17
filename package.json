@@ -17,6 +17,8 @@
     "clsx": "^1.2.1",
     "colors": "^1.4.0",
     "cookies": "^0.8.0",
+    "firebase": "^9.14.0",
+    "formik": "^2.2.9",
     "gsap": "^3.11.3",
     "mobile-device-detect": "^0.4.3",
     "mongodb": "^4.11.0",
@@ -32,7 +34,9 @@
     "react-redux": "^8.0.5",
     "sass": "^1.56.1",
     "the-new-css-reset": "^1.7.3",
-    "tti-polyfill": "^0.2.2"
+    "tti-polyfill": "^0.2.2",
+    "uuid": "^9.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.8",

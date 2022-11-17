@@ -10,6 +10,10 @@ const initialState = {
 		},
 		language: "English",
 	},
+	auth: {
+		adminAccess: false,
+		adminID: null,
+	},
 };
 
 export default initialState;
