@@ -13,6 +13,7 @@ const initialState = {
 	auth: {
 		adminAccess: false,
 		adminID: null,
+		user: null,
 	},
 };
 

@@ -4,22 +4,28 @@ import initState from "./initialState";
 
 const initialState = initState.auth;
 
-const onlyReducer = createReducer(initialState, (builder) => {
+const authReducer = createReducer(initialState, (builder) => {
 	builder.addCase(Types.AUTH_USER_SUCCESS, (state, action) => {
 		return {
 			...state,
 			adminAccess: true,
-			adminID: action.payload._id,
+			user: {
+				...action.payload,
+			},
 		};
 	});
 	builder.addCase(Types.AUTH_USER_FAIL, (state, action) => {
-		//TODO: Handle toast here...
 		return {
 			...state,
-			adminAccess: false,
-			adminID: null,
+			...initState.auth,
+		};
+	});
+	builder.addCase(Types.REGISTER_USER_FAIL, (state, action) => {
+		return {
+			...state,
+			...initState.auth,
 		};
 	});
 });
 
-export default onlyReducer;
+export default authReducer;

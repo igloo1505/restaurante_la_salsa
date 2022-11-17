@@ -20,6 +20,7 @@
     "firebase": "^9.14.0",
     "formik": "^2.2.9",
     "gsap": "^3.11.3",
+    "jsonwebtoken": "^8.5.1",
     "mobile-device-detect": "^0.4.3",
     "mongodb": "^4.11.0",
     "mongoose": "^6.7.2",

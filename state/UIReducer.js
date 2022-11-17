@@ -4,7 +4,7 @@ import initState from "./initialState";
 import toastConfig, { toastTypes } from "../classes/toastConfig";
 const initialState = initState.UI;
 
-const onlyReducer = createReducer(initialState, (builder) => {
+const authReducer = createReducer(initialState, (builder) => {
 	builder.addCase(Types.TOGGLE_DRAWER, (state, action) => {
 		return {
 			...state,
@@ -83,4 +83,4 @@ const onlyReducer = createReducer(initialState, (builder) => {
 	});
 });
 
-export default onlyReducer;
+export default authReducer;

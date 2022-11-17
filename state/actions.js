@@ -2,7 +2,10 @@ import store from "./store";
 import * as Types from "./Types";
 import axios from "axios";
 
-const _config = {"Content-Type": "application/json"}
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common["Auth"] = store.getState()?.auth?.user?.token;
+axios.defaults.headers.common["id"] = store.getState()?.auth?.user?._id;
+
 
 export const toggleDrawer = () => {
 	store.dispatch({
@@ -40,13 +43,39 @@ export const toggleLanguage = (_lang) => {
 };
 
 export const updateSpecial = async (specialData) => {
-	const res = await axios.post("/api/updateSpecial", specialData, _config);
+	const res = await axios.post("/api/updateSpecial", specialData);
 	console.log("res from updateSpecial", res);
 };
 
 export const authenticateUser = async (userData) => {
-    const res = await axios.get("/api/authUser", userData, _config);
-    console.log("Res from authenticateUser", res)
-}
+	console.log("userData: ", userData);
+	const res = await axios.post("/api/authUser", userData);
+	console.log("Res from authenticateUser", res);
+	if (res?.data?.success) {
+		store.dispatch({
+			type: Types.AUTH_USER_SUCCESS,
+			payload: res.data.user,
+		});
+	}
+	if (!res?.data?.success) {
+		store.dispatch({
+			type: Types.AUTH_USER_FAIL,
+		});
+	}
+};
 
-
+export const registerUser = async (userData) => {
+	const res = await axios.post("/api/registerUser", userData);
+	console.log("Res from registerUser", res);
+	if (res?.data?.success) {
+		store.dispatch({
+			type: Types.REGISTER_USER_SUCCESS,
+			payload: res.data.user,
+		});
+	}
+	if (!res?.data?.success) {
+		store.dispatch({
+			type: Types.REGISTER_USER_FAIL,
+		});
+	}
+};

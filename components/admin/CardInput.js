@@ -37,6 +37,11 @@ const CardInput = ({ loc, label, type, onChange, formik }) => {
 				type={type}
 				// placeholder={formik.touched?.[label] && formik.errors?.[label]}
 				onBlur={formik.handleBlur}
+				onFocus={() => {
+					if (formik.values?.[label] === formik.initialValues?.[label]) {
+						formik.setValues({ ...formik.values, [label]: "" });
+					}
+				}}
 				className="text-white border-white border-2 w-full px-2 py-1 rounded"
 			/>
 		</div>

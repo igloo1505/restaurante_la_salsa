@@ -3,19 +3,16 @@ import { useRouter } from "next/router";
 import AdminCardSwitcher from "../../components/admin/AdminCardSwitcher";
 import AdminWithAccess from "../../components/admin/AdminWithAccess";
 import { updateSpecial } from "../../state/actions";
+import { connect } from "react-redux";
 
-const AdminPage = (props) => {
-	let router = useRouter();
-	const [hasAccess, setHasAccess] = useState(false);
-	const handleSpecialUpdate = async () => {
-		// let res = await updateSpecial()
-		// console.log('res: ', res);
-	};
-	useEffect(() => {
-		handleSpecialUpdate();
-	}, []);
+const AdminPage = ({ hasAdminAccess }) => {
 
-	return <div>{!hasAccess ? <AdminCardSwitcher /> : <AdminWithAccess />}</div>;
+	return (
+		<div>{!hasAdminAccess ? <AdminCardSwitcher /> : <AdminWithAccess />}</div>
+	);
 };
+const mapStateToProps = (state, props) => ({
+	hasAdminAccess: state.auth.adminAccess,
+});
 
-export default AdminPage;
+export default connect(mapStateToProps)(AdminPage);
