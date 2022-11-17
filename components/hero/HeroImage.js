@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Image from "next/image";
 import HeroBackgroundImage from "../../public/assets/stock/girlOverlookingMexicoCity.jpg";
 const colors = require("tailwindcss/colors");
 import { connect } from "react-redux";
 import clsx from "clsx";
+
+const fadeOutPercent = 0.5;
 
 const mapStateToProps = (state, props) => ({
 	UI: state.UI,
@@ -12,12 +14,7 @@ const mapStateToProps = (state, props) => ({
 
 const HeroWave = connect(mapStateToProps)(
 	({ excessScroll, entered, justExcess }) => {
-		const [waveTransform, setWaveTransform] = useState({
-			rotate: "rotateZ(90deg)",
-			translateX: "0px",
-			translateY: "0px",
-			override: true,
-		});
+		const [isInitial, setIsInitial] = useState(true);
 		const [waveHeight, setWaveHeight] = useState(0);
 		const getWaveEmHeight = (w) => {
 			return w ? (320 * w) / 1440 : 0;
@@ -39,35 +36,27 @@ const HeroWave = connect(mapStateToProps)(
 				return;
 			}
 			let em = document.getElementById("hero-wave-background-container");
-
+			let overlay = document.getElementById("hero-image-overlay");
 			if (em) {
 				console.log("setting em...", em.style.transform);
-
-				// if (Number(em.style.opacity) === 0) {
-				// 	console.log("opacity", em.style.opacity);
-				// 	em.style.transition = _transition;
-				// 	em.style.opacity = 1;
-				// 	em.style.transition = "unset";
-				// 	return setTimeout(() => {
-				// 		em.style.transform = `rotateZ(90deg) translateX(-${
-				// 			_entered ? justExcess : 0
-				// 		}px) translateY(-${getWaveEmHeight(window.innerHeight) - 10}px)`;
-				// 		setTimeout(() => {
-				// 			em.style.transition = _transition;
-				// 		}, 650);
-				// 	}, 650);
-				// }
 				if (override) {
 					em.style.transition = "unset";
 				}
+
 				em.style.transform = `rotateZ(90deg) translateX(-${
 					_entered ? justExcess : 0
 				}px) translateY(-${getWaveEmHeight(window.innerHeight) - 10}px)`;
+				em.style.opacity = 1;
+
 				setTimeout(() => {
-					em.style.transition = _transition;
-					if (Number(em.style.opacity) === 0) {
-						em.style.opacity = 1;
+					if (isInitial) {
+						overlay.style.transform = "scaleX(0)";
+						setIsInitial(false);
+						setTimeout(() => {
+							overlay.style.opacity = 0;
+						}, 600)
 					}
+					em.style.transition = _transition;
 				}, 650);
 			}
 		};
@@ -83,7 +72,7 @@ const HeroWave = connect(mapStateToProps)(
 			<div
 				className="w-screen top-0 left-0 will-change-transform"
 				style={{
-					width: `${waveHeight}px`,
+					width: `${waveHeight + 5}px`,
 					transform: "rotateZ(90deg)",
 					transformOrigin: "top left",
 					opacity: 0,
@@ -132,25 +121,45 @@ const HeroImage = ({ excessScrollPixels, setExcessScrollPixels, entered }) => {
 			let excess = getExcessScroll();
 			setExcessScrollPixels(excess);
 		});
+		window.addEventListener("scroll", () => {
+			if (typeof window === "undefined") {
+				return;
+			}
+
+			let st = window.scrollY;
+			let h = window.innerHeight;
+			let em = document.getElementById("hero-image-overlay");
+			if (!em || !st) return;
+			em.style.transform = "scaleX(1)";
+			em.style.transition = "all 0.2s ease-in-out";
+			em.style.opacity = 1 - (h - st / fadeOutPercent) / h;
+		});
 	}, []);
 
 	return (
-		<div className="w-full md:w-1/2 absolute h-screen left-1/2 top-0 overflow-hidden">
-			<HeroWave
-				excessScroll={excessScrollPixels}
-				entered={entered}
-				justExcess={justExcess}
-			/>
-			<Image
-				src={HeroBackgroundImage}
-				alt="Mexico City"
-				className="absolute top-0 right-0 h-full min-w-[110%] object-cover -z-10 max-w-fit"
-				id="hero-background-image"
-				style={{
-					transform: `translateX(${entered ? justExcess : 0}px)`,
-				}}
-			/>
-		</div>
+		<Fragment>
+			<div
+				className="bg-heroBG h-full w-1/2 absolute top-0 right-0 will-change-auto origin-left"
+				id="hero-image-overlay"
+				style={{ transition: "transform 0.6s ease-in-out" }}
+			></div>
+			<div className="w-full md:w-1/2 absolute h-screen left-1/2 top-0 overflow-hidden">
+				<HeroWave
+					excessScroll={excessScrollPixels}
+					entered={entered}
+					justExcess={justExcess}
+				/>
+				<Image
+					src={HeroBackgroundImage}
+					alt="Mexico City"
+					className="absolute top-0 right-0 h-full min-w-[110%] object-cover -z-10 max-w-fit"
+					id="hero-background-image"
+					style={{
+						transform: `translateX(${entered ? justExcess : 0}px)`,
+					}}
+				/>
+			</div>
+		</Fragment>
 	);
 };
 

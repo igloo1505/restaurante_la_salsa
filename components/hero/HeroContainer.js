@@ -12,6 +12,7 @@ const HeroContainer = (props) => {
 	useEffect(() => {
 		console.log("useEffect called", excessScrollPixels);
 	}, [excessScrollPixels]);
+
 	const handleHeroState = () => {
 		console.log("Adjust this later...");
 		setHeroEntered(!heroEntered);

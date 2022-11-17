@@ -18,6 +18,8 @@ module.exports = {
 		supports: {},
 		colors: ({ colors }) => ({
 			heroBG: colors.gray[900],
+			flag_red: "#C8102E",
+			flag_green: "#006341",
 			inherit: colors.inherit,
 			current: colors.current,
 			transparent: colors.transparent,

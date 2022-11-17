@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import clsx from "clsx";
 import { toggleLanguage } from "../../state/actions";
 
-const _activeClasses = "bg-sky-600 border-2 border-transparent";
-const _inactiveClasses = "border-sky-600 border-2";
+const _activeClasses = "bg-flag_red border-2 border-transparent";
+const _inactiveClasses = "border-flag_red border-2";
 
 const HeroLeft = ({ language }) => {
 	return (
 		<div className="w-full md:w-1/2 h-screen bg-heroBG flex flex-col justify-center items-center gap-10">
-			<div className="h-fit w-11/12 select-none text-white font-extrabold text-center font-serif text-8xl leading-tight break-words tracking-wider inline-block">
+			<div className="h-fit w-11/12 select-none text-white font-extrabold text-center font-serif text-7xl leading-tight break-words tracking-wider inline-block">
 				Taqueria La Salsa
 			</div>
 			<div className="w-full flex flex-row justify-center items-center gap-10">
